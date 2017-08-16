@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 const list = [
@@ -76,6 +75,18 @@ class Search extends Component {
     }
 }
 
+class Button extends Component {
+    render() {
+        const { onClick, className = "", children } = this.props;
+
+        return (
+            <button className={className} onClick={onClick} type="button">
+                {children}
+            </button>
+        );
+    }
+}
+
 class Table extends Component {
     render() {
         const { list, pattern, onDismiss } = this.props;
@@ -103,12 +114,11 @@ class Table extends Component {
                                 {item.points}
                             </span>
                             <span>
-                                <button
+                                <Button
                                     onClick={() => onDismiss(item.objectID)}
-                                    type="button"
                                 >
                                     Dismiss
-                                </button>
+                                </Button>
                             </span>
                         </div>
                     )}
