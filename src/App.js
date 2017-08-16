@@ -62,9 +62,7 @@ class App extends Component {
 
 export default App;
 
-function Search(props) {
-    const { value, onChange, children } = props;
-
+function Search({ value, onChange, children }) {
     return (
         <form>
             {children}
@@ -73,19 +71,7 @@ function Search(props) {
     );
 }
 
-function Button(props) {
-    const { onClick, className = "", children } = props;
-
-    return (
-        <button className={className} onClick={onClick} type="button">
-            {children}
-        </button>
-    );
-}
-
-function Table(props) {
-    const { list, pattern, onDismiss } = props;
-
+function Table({ list, pattern, onDismiss }) {
     return (
         <div>
             {list
@@ -116,5 +102,13 @@ function Table(props) {
                     </div>
                 )}
         </div>
+    );
+}
+
+function Button({ onClick, className = "", children }) {
+    return (
+        <button className={className} onClick={onClick} type="button">
+            {children}
+        </button>
     );
 }
