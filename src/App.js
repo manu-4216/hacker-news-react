@@ -37,19 +37,54 @@ class App extends Component {
         const { searchTerm, list } = this.state;
         return (
             <div className="App">
-                <form>
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={this.onSearchChange}
-                    />
-                </form>
+                <Search value={searchTerm} onChange={this.onSearchChange}>
+                    Search
+                </Search>
 
+                <Table
+                    list={list}
+                    pattern={searchTerm}
+                    onDismiss={this.onDismiss}
+                />
+            </div>
+        );
+    }
+
+    onDismiss(id) {
+        const isNotId = item => item.objectID !== id;
+        const updatedList = this.state.list.filter(isNotId);
+        this.setState({ list: updatedList });
+    }
+
+    onSearchChange(event) {
+        this.setState({ searchTerm: event.target.value });
+    }
+}
+
+export default App;
+
+class Search extends Component {
+    render() {
+        const { value, onChange, children } = this.props;
+
+        return (
+            <form>
+                {children}
+                <input type="text" value={value} onChange={onChange} />
+            </form>
+        );
+    }
+}
+
+class Table extends Component {
+    render() {
+        const { list, pattern, onDismiss } = this.props;
+
+        return (
+            <div>
                 {list
                     .filter(item =>
-                        item.title
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase())
+                        item.title.toLowerCase().includes(pattern.toLowerCase())
                     )
                     .map(item =>
                         <div key={item.objectID}>
@@ -69,8 +104,7 @@ class App extends Component {
                             </span>
                             <span>
                                 <button
-                                    onClick={() =>
-                                        this.onDismiss(item.objectID)}
+                                    onClick={() => onDismiss(item.objectID)}
                                     type="button"
                                 >
                                     Dismiss
@@ -81,16 +115,4 @@ class App extends Component {
             </div>
         );
     }
-
-    onDismiss(id) {
-        const isNotId = item => item.objectID !== id;
-        const updatedList = this.state.list.filter(isNotId);
-        this.setState({ list: updatedList });
-    }
-
-    onSearchChange(event) {
-        this.setState({ searchTerm: event.target.value });
-    }
 }
-
-export default App;
