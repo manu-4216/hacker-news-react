@@ -16,8 +16,9 @@ class App extends Component {
 
         this.setSearchTopstories = this.setSearchTopstories.bind(this);
         this.fetchSearchTopstories = this.fetchSearchTopstories.bind(this);
-        this.onDismiss = this.onDismiss.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
+        this.onSearchSubmit = this.onSearchSubmit.bind(this);
+        this.onDismiss = this.onDismiss.bind(this);
     }
 
     setSearchTopstories(result) {
@@ -42,17 +43,17 @@ class App extends Component {
         return (
             <div className="page">
                 <div className="interactions">
-                    <Search value={searchTerm} onChange={this.onSearchChange}>
+                    <Search
+                        value={searchTerm}
+                        onChange={this.onSearchChange}
+                        onSubmit={this.onSearchSubmit}
+                    >
                         Search
                     </Search>
                 </div>
 
                 {result
-                    ? <Table
-                          list={result.hits}
-                          pattern={searchTerm}
-                          onDismiss={this.onDismiss}
-                      />
+                    ? <Table list={result.hits} onDismiss={this.onDismiss} />
                     : null}
             </div>
         );
@@ -69,48 +70,52 @@ class App extends Component {
     onSearchChange(event) {
         this.setState({ searchTerm: event.target.value });
     }
+
+    onSearchSubmit(event) {
+        const { searchTerm } = this.state;
+        this.fetchSearchTopstories(searchTerm);
+        event.preventDefault();
+    }
 }
 
 export default App;
 
-const Search = ({ value, onChange, children }) =>
-    <form>
-        {children}
+const Search = ({ value, onChange, onSubmit, children }) =>
+    <form onSubmit={onSubmit}>
         <input type="text" value={value} onChange={onChange} />
+        <button type="submit">
+            {children}
+        </button>
     </form>;
 
-const Table = ({ list, pattern, onDismiss }) =>
+const Table = ({ list, onDismiss }) =>
     <div className="table">
-        {list
-            .filter(item =>
-                item.title.toLowerCase().includes(pattern.toLowerCase())
-            )
-            .map(item =>
-                <div key={item.objectID} className="table-row">
-                    <span style={{ width: "40%" }}>
-                        <a href={item.url}>
-                            {item.title}
-                        </a>
-                    </span>
-                    <span style={{ width: "30%" }}>
-                        {item.author}
-                    </span>
-                    <span style={{ width: "10%" }}>
-                        {item.num_comments}
-                    </span>
-                    <span style={{ width: "10%" }}>
-                        {item.points}
-                    </span>
-                    <span style={{ width: "10%" }}>
-                        <Button
-                            onClick={() => onDismiss(item.objectID)}
-                            className="button-inline"
-                        >
-                            Dismiss
-                        </Button>
-                    </span>
-                </div>
-            )}
+        {list.map(item =>
+            <div key={item.objectID} className="table-row">
+                <span style={{ width: "40%" }}>
+                    <a href={item.url}>
+                        {item.title}
+                    </a>
+                </span>
+                <span style={{ width: "30%" }}>
+                    {item.author}
+                </span>
+                <span style={{ width: "10%" }}>
+                    {item.num_comments}
+                </span>
+                <span style={{ width: "10%" }}>
+                    {item.points}
+                </span>
+                <span style={{ width: "10%" }}>
+                    <Button
+                        onClick={() => onDismiss(item.objectID)}
+                        className="button-inline"
+                    >
+                        Dismiss
+                    </Button>
+                </span>
+            </div>
+        )}
     </div>;
 
 const Button = ({ onClick, className = "", children }) =>
