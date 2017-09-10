@@ -199,3 +199,5 @@ Button.propTypes = {
     className: PropTypes.string,
     children: PropTypes.node
 };
+
+export { Button, Search, Table };
