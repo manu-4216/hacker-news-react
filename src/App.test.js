@@ -73,7 +73,9 @@ describe("Table", () => {
                 objectID: "z"
             }
         ],
-        onDismiss: () => {}
+        onDismiss: () => {},
+        sortKey: "TITLE",
+        isSortReverse: false
     };
     it("renders", () => {
         const div = document.createElement("div");
