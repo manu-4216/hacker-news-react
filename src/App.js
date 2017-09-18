@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import "./App.css";
-import { sortBy } from "lodash";
-import classNames from "classnames";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import './App.css';
+import { sortBy } from 'lodash';
+import classNames from 'classnames';
 
-const DEFAULT_QUERY = "redux";
+const DEFAULT_QUERY = 'redux';
 const DEFAULT_PAGE = 0;
-const DEFAULT_HPP = "100";
+const DEFAULT_HPP = '100';
 
-const PATH_BASE = "https://hn.algolia.com/api/v1";
-const PATH_SEARCH = "/search";
-const PARAM_SEARCH = "query=";
-const PARAM_PAGE = "page=";
-const PARAM_HPP = "hitsPerPage=";
+const PATH_BASE = 'https://hn.algolia.com/api/v1';
+const PATH_SEARCH = '/search';
+const PARAM_SEARCH = 'query=';
+const PARAM_PAGE = 'page=';
+const PARAM_HPP = 'hitsPerPage=';
 
 const SORTS = {
     NONE: list => list,
-    TITLE: list => sortBy(list, "title"),
-    AUTHOR: list => sortBy(list, "author"),
-    COMMENTS: list => sortBy(list, "num_comments").reverse(),
-    POINTS: list => sortBy(list, "points").reverse()
+    TITLE: list => sortBy(list, 'title'),
+    AUTHOR: list => sortBy(list, 'author'),
+    COMMENTS: list => sortBy(list, 'num_comments').reverse(),
+    POINTS: list => sortBy(list, 'points').reverse()
 };
 
 class App extends Component {
@@ -27,10 +27,10 @@ class App extends Component {
         super(props);
         this.state = {
             results: null,
-            searchKey: "",
+            searchKey: '',
             searchTerm: DEFAULT_QUERY,
             isLoading: false,
-            sortKey: "NONE",
+            sortKey: 'NONE',
             isSortReverse: false
         };
 
@@ -189,61 +189,61 @@ const Table = ({ list, sortKey, isSortReverse, onSort, onDismiss }) => {
     return (
         <div className="table">
             <div className="table-header">
-                <span style={{ width: "40%" }}>
+                <span style={{ width: '40%' }}>
                     <Sort
-                        sortKey={"TITLE"}
+                        sortKey={'TITLE'}
                         onSort={onSort}
                         activeSortKey={sortKey}
                     >
                         Title
                     </Sort>
                 </span>
-                <span style={{ width: "30%" }}>
+                <span style={{ width: '30%' }}>
                     <Sort
-                        sortKey={"AUTHOR"}
+                        sortKey={'AUTHOR'}
                         onSort={onSort}
                         activeSortKey={sortKey}
                     >
                         Author
                     </Sort>
                 </span>
-                <span style={{ width: "10%" }}>
+                <span style={{ width: '10%' }}>
                     <Sort
-                        sortKey={"COMMENTS"}
+                        sortKey={'COMMENTS'}
                         onSort={onSort}
                         activeSortKey={sortKey}
                     >
                         Comments
                     </Sort>
                 </span>
-                <span style={{ width: "10%" }}>
+                <span style={{ width: '10%' }}>
                     <Sort
-                        sortKey={"POINTS"}
+                        sortKey={'POINTS'}
                         onSort={onSort}
                         activeSortKey={sortKey}
                     >
                         Points
                     </Sort>
                 </span>
-                <span style={{ width: "10%" }}>Archive</span>
+                <span style={{ width: '10%' }}>Archive</span>
             </div>
             {reverseSortedList.map(item =>
                 <div key={item.objectID} className="table-row">
-                    <span style={{ width: "40%" }}>
+                    <span style={{ width: '40%' }}>
                         <a href={item.url}>
                             {item.title}
                         </a>
                     </span>
-                    <span style={{ width: "30%" }}>
+                    <span style={{ width: '30%' }}>
                         {item.author}
                     </span>
-                    <span style={{ width: "10%" }}>
+                    <span style={{ width: '10%' }}>
                         {item.num_comments}
                     </span>
-                    <span style={{ width: "10%" }}>
+                    <span style={{ width: '10%' }}>
                         {item.points}
                     </span>
-                    <span style={{ width: "10%" }}>
+                    <span style={{ width: '10%' }}>
                         <Button
                             onClick={() => onDismiss(item.objectID)}
                             className="button-inline"
@@ -271,8 +271,8 @@ Table.propTypes = {
 };
 
 const Sort = ({ sortKey, activeSortKey, onSort, children }) => {
-    const sortClass = classNames("button-inline", {
-        "button-active": sortKey === activeSortKey
+    const sortClass = classNames('button-inline', {
+        'button-active': sortKey === activeSortKey
     });
 
     return (
@@ -282,7 +282,7 @@ const Sort = ({ sortKey, activeSortKey, onSort, children }) => {
     );
 };
 
-const Button = ({ onClick, className = "", children }) =>
+const Button = ({ onClick, className = '', children }) =>
     <button className={className} onClick={onClick} type="button">
         {children}
     </button>;
